@@ -18,7 +18,7 @@ x = np.array([[1,np.uint32(4)],
               [12,np.uint32(15)],
               ])
 
-for scenario in range(0,2**14):
+for scenario in range(0,2**16):
   a = ~(x[:,1]^4)
   total = 0
   for i in range(0,18):
