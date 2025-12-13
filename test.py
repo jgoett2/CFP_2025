@@ -18,7 +18,7 @@ x = np.array([[1,np.uint32(4)],
               [12,np.uint32(15)],
               ])
 
-for scenario in range(0,2**16):
+for scenario in range(0,2**17):
   a = ~(x[:,1]^4)
   total = 0
   for i in range(0,18):
@@ -28,4 +28,4 @@ for scenario in range(0,2**16):
 
 
 print("Finished!")
-st.title("Dave! - 16")
+st.title("Dave! - 17")
