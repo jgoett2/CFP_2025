@@ -69,16 +69,16 @@ def calculate_pathways(df, key):
   return df, scenarios
 
 
-#df, scenarios = calculate_pathways(df, st.session_state.key)
+df, scenarios = calculate_pathways(df, st.session_state.key)
 
 
 col1, col2 = st.columns(2)
 
 with col1:
-  #df = df.sort_values(["Wins","Pathways_to_First"], ascending=False)
-  df = df.sort_values(["Wins"], ascending=False)
-  #st.dataframe(df[["Name", "Wins", "Losses", "Pathways_to_First", "Chance_of_Winning"]], hide_index=True, height=50*len(df))
-  st.dataframe(df[["Name", "Wins", "Losses"]], hide_index=True, height=50*len(df))
+  df = df.sort_values(["Wins","Pathways_to_First"], ascending=False)
+  #df = df.sort_values(["Wins"], ascending=False)
+  st.dataframe(df[["Name", "Wins", "Losses", "Pathways_to_First", "Chance_of_Winning"]], hide_index=True, height=50*len(df))
+  #st.dataframe(df[["Name", "Wins", "Losses"]], hide_index=True, height=50*len(df))
 
 def callback_function(game):
     st.session_state.key[game] = name_conversion[st.session_state[game]]
