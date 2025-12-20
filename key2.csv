@@ -1,7 +1,7 @@
-Game,Team1,Team1_Victory,Team2,Team2_Victory
+﻿Game,Team1,Team1_Victory,Team2,Team2_Victory
 CFP_First_Round1,1. Oklahoma (+2),FALSE,2. Alabama,TRUE
 CFP_First_Round2,3. Miami (+4),TRUE,4. Texas A&M,FALSE
-CFP_First_Round3,5. Tulane (+17),FALSE,6. Ole Miss,FALSE
+CFP_First_Round3,5. Tulane (+17),FALSE,6. Ole Miss,TRUE
 CFP_First_Round4,7. James Madison (+21),FALSE,8. Oregon,FALSE
 Gator_Bowl,9. Missouri,FALSE,10. Virginia (+8),FALSE
 Military_Bowl,11. Pittsburgh,FALSE,12. East Carolina (+7),FALSE
