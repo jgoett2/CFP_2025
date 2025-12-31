@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import plotly.express as px
-
 
 st.title("CFP")
 
@@ -78,8 +76,9 @@ col1, col2 = st.columns(2)
 
 with col1:
   df = df.sort_values(["Wins","Pathways_to_First"], ascending=False)
+  #df = df.sort_values(["Wins"], ascending=False)
   st.dataframe(df[["Name", "Wins", "Losses", "Pathways_to_First", "Chance_of_Winning"]], hide_index=True, height=50*len(df))
-
+  #st.dataframe(df[["Name", "Wins", "Losses"]], hide_index=True, height=50*len(df))
 
 def callback_function(game):
     st.session_state.key[game] = name_conversion[st.session_state[game]]
@@ -94,95 +93,5 @@ with col2:
     name_conversion[team2] = open_game[3]
     st.segmented_control(open_game[0], [team1, team2], key=open_game[0],  
            on_change=callback_function, kwargs={"game":open_game[0]})
-
-
-
-
-
-#Experimental
-df = df.sort_values(["Wins","Pathways_to_First"], ascending=False)
-
-name_detail = df["Name"].unique()[0]
-
-scenarios = pd.DataFrame(scenarios)
-
-
-scenarios["Win1"] = scenarios["number"] & 4
-
-
-def get_status(name_detail, x):
-  if name_detail in x and len(x) == 1:
-    return "win_outright"
-  elif name_detail in x and len(x) > 1:
-    return "tie"
-  else:
-    return "lost"
-
-scenarios["status"] = scenarios["winners"].map(lambda x: get_status(name_detail, x))
-
-i = len(open_games)-1
-scenarios["teams"] = ""
-for y in open_games.values:
-  number = 2**i
-  scenarios["teams"] += scenarios["number"].map(lambda x: (y[1] + ", <br>") if ((x & number) > 0) else (y[3] + ", <br>"))
-  i -= 1
-  
-
-def count_distance(x, player_binary, losses):
-  result = (player_binary ^ np.uint32(x))
-  distance = 0
-  for i in range(0,len(open_games)):
-    distance += result % 2
-    result = result >> 1
-  return distance + losses
-
-scenarios["distance"] = scenarios["number"].map(lambda x:count_distance(x, int(df.loc[df.Name==name_detail,"num"]), int(df.loc[df.Name==name_detail,"Losses"])))
-
-for losses in scenarios["distance"].unique():
-  temp_index = 0
-  for i in scenarios[scenarios.distance==losses].index:
-    scenarios.loc[i,"x"] = (temp_index % 3)*0.15 + scenarios.loc[i,"distance"]
-    scenarios.loc[i,"y"] = (temp_index // 3)*0.1 + 0.1
-    temp_index += 1
-
-
-
-  # Create distplot with custom bin_size
-
-fig = px.scatter(scenarios, x="x", y="y", color="status", 
-                 color_discrete_map={"win_outright": 'blue', "tie": "lightblue", "lost":"white"}, 
-                 hover_name="winners",
-                 hover_data={'x':False, # remove species from hover data
-                             'y':False, # customize hover for column of y attribute
-                             'teams':True # add other column, default formatting
-                            },
-                 title="Remaining Scenarios and Respective Winners")
-
-fig.update_layout(hovermode='closest') 
-
-fig.update_traces(marker=dict(size=10, line=dict(width=2, color='black')))
-
-fig.update_layout(
-    xaxis=dict(fixedrange=True),
-    yaxis=dict(fixedrange=True)
-)
-
-
-fig.update_xaxes(title_text=name_detail + " Possible Losses")
-fig.update_xaxes(tickvals=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-
-#fig.update_yaxes(range=[0,1])
-#fig.update_yaxes(tickvals=[0,1])
-fig.update_yaxes(title_text='')
-
-  
-st.plotly_chart(fig, use_container_width=True)
-
-
-
-
-# end experiment
-
-
 
 
